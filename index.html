@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	
+</head>
+<body style="margin-left: 20%;">
+
+<div id='can'>
+	<canvas id="myCanvas" width="1500" height="1000" style="z-index:1001;border:1px solid #d3d3d3;position: absolute;top: 0;left: 0;">
+	Your browser does not support the HTML5 canvas tag.
+	</canvas>
+</div>
+
+<div style="position: absolute; left: 80vw;background-color: #ebeef4;padding: 15px">
+	Select color:
+	<br><br>
+	<button onclick="color(this)" style="background-color: red">red</button>
+	<button onclick="color(this)" style="background-color: green">green</button>
+	<button onclick="color(this)" style="background-color: blue">blue</button>
+
+	<hr> 
+	<br>
+	Select Shape:
+	<br><br>
+	<button onclick="sLine()">Line</button>
+	<button onclick="fLine()">Free Line</button>
+	<button onclick="rect()">Rect</button>
+	<button onclick="circle()">Circle</button>
+	<br><br>
+
+	<hr>
+	<button onclick="clearMe()">Clear</button><br>
+
+
+
+</div>
+
+
+
+
+<script>
+var arx=[];
+var ary=[];
+var cnt=0;
+var color1="black";
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+
+
+document.getElementById("myCanvas").addEventListener('mouseout',mouseGone);
+
+
+
+
+
+function sLine(){
+	var old_element = document.getElementById("myCanvas");
+	var new_element = old_element.cloneNode(true);
+	old_element.parentNode.replaceChild(new_element, old_element);
+	mouseGone();
+
+
+	c = document.getElementById("myCanvas");
+	ctx = c.getContext("2d");
+	document.getElementById("myCanvas").addEventListener("click",sline_helper);
+}
+
+
+function fLine(){
+	var flag=0;
+	var old_element = document.getElementById("myCanvas");
+	var new_element = old_element.cloneNode(true);
+	old_element.parentNode.replaceChild(new_element, old_element);
+	mouseGone();
+
+	c = document.getElementById("myCanvas");
+	ctx = c.getContext("2d");
+	document.getElementById("myCanvas").onclick= function(event){
+		if(flag==0){
+				flag=1;
+				ctx.beginPath();
+			  document.getElementById("myCanvas").addEventListener("mousemove",fline_helper);
+		}
+		else{
+			flag=0;
+			document.getElementById("myCanvas").removeEventListener("mousemove", fline_helper); 
+			mouseGone();
+			ctx.closePath();
+			}
+	}
+}
+
+function rect(){
+	var old_element = document.getElementById("myCanvas");
+	var new_element = old_element.cloneNode(true);
+	old_element.parentNode.replaceChild(new_element, old_element);
+	mouseGone();
+
+	c = document.getElementById("myCanvas");
+	ctx = c.getContext("2d");
+	document.getElementById("myCanvas").addEventListener("click",rect_helper);
+}
+
+function circle(){
+	var old_element = document.getElementById("myCanvas");
+	var new_element = old_element.cloneNode(true);
+	old_element.parentNode.replaceChild(new_element, old_element);
+	mouseGone();
+
+	c = document.getElementById("myCanvas");
+	ctx = c.getContext("2d");
+	document.getElementById("myCanvas").addEventListener("click",circle_helper);
+}
+
+
+
+
+
+function sline_helper(event){
+	console.log(cnt);
+	cnt=(cnt)%2 + 1;
+
+	if(cnt==1)
+		ctx.beginPath();
+		
+	var x = event.clientX;
+	var y = event.clientY;
+
+	
+
+	arx[cnt-1]=x;
+	ary[cnt-1]=y; 
+
+	if(cnt>1){
+	ctx.strokeStyle = color1;
+
+	ctx.moveTo(arx[0],ary[0]);
+	ctx.lineTo(arx[1],ary[1]);
+	ctx.stroke();
+	ctx.closePath();
+	}
+}
+
+
+
+function fline_helper(event) {
+	cnt++;
+	var x = event.clientX;
+	var y = event.clientY;
+	arx[cnt-1]=x;
+	ary[cnt-1]=y; 
+
+	if(cnt>1){
+	ctx.strokeStyle = color1;
+	ctx.moveTo(arx[cnt-2],ary[cnt-2]);
+	ctx.lineTo(arx[cnt-1],ary[cnt-1]);
+	ctx.stroke();
+	}
+}
+
+
+function rect_helper(event){
+
+	cnt=(cnt)%2 + 1;
+
+	if(cnt==1)
+		ctx.beginPath();
+		
+
+	var x = event.clientX;
+	var y = event.clientY;
+
+	arx[cnt-1]=x;
+	ary[cnt-1]=y; 
+
+	if(cnt>1){
+	ctx.strokeStyle = color1;
+
+	ctx.rect(arx[0],ary[0],arx[1]-arx[0],ary[1]-ary[0]);
+	ctx.stroke();
+	ctx.closePath();
+	}
+}
+
+function circle_helper(event){
+
+	cnt=(cnt)%2 + 1;
+
+	if(cnt==1)
+		ctx.beginPath();
+		
+
+	var x = event.clientX;
+	var y = event.clientY;
+
+	arx[cnt-1]=x;
+	ary[cnt-1]=y; 
+
+	console.log(x,y);
+
+	if(cnt>1){
+
+	ctx.strokeStyle = color1;
+	
+
+	ctx.arc(arx[0],ary[0], Math.sqrt(Math.abs( Math.pow(arx[1]-arx[0],2) + Math.pow(ary[1]-ary[0],2)) ) , 0 ,2 * Math.PI);
+
+	ctx.stroke();
+	ctx.closePath();
+	arx=[];
+	ary=[];
+	cnt=0;
+	}
+}
+
+
+function mouseGone(){
+	arx=[];
+	ary=[];
+	cnt=0;
+}
+
+function color(elem){
+	color1=elem.innerHTML;
+}
+
+function clearMe(){
+	document.location.reload();
+}
+
+</script>
+</body>
+</html>
