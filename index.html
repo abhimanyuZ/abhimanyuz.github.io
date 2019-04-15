@@ -1,11 +1,124 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Página de prueba<title>
+	<title></title>
+	<style type="text/css">
+		body {
+		  height: 100vh;
+		  width: 100vw;
+		  overflow: hidden;
+		}
+
+		#screen1 {
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  height: 100vh;
+		  width: 100vw;
+		  background-color: transparent;
+		  background-image: url(img/bg1.jpg);
+		  opacity: 1;
+		  z-index: 1000;
+		}
+
+		#screen2 {
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  height: 100vh;
+		  width: 100vw;
+		  background-color: transparent;
+		  background-image: url(img/bg3.jpg);
+		  opacity: 1;
+		  z-index: 999;
+		}
+
+
+
+	</style>
+	<link rel="stylesheet" href="css/bootstrap.min.css" >
 </head>
 <body>
-  <h1>Hola amiguitos!</h1>
-  <footer>gpuma 2017</footer>
+	<div id="screen1">
+		
+    	
+    		<div class="card" id="card1" style="width: 28%; position: absolute;
+top: 50%; left:36%;
+transform: translateY(-50%);">
+			  <img src="img/avtar.jpg" class="card-img-bottom" alt="...">
+			  <div class="card-body">
+			    <p class="card-title text-center">Welcome stranger!</p>
+			    <p class="card-body text-center text-muted">I presume you are looking for Abhimanyu. Well, you are in luck!</p>
+			</div>
+    	
+		    
+		
+	</div>
+	</div>
+
+	<div id="screen2">
+	</div>
+
+<script
+  src="js/jquery-3.4.0.min.js"
+  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
+  crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+var count = 25,c2=0,scale=25,rate=0.04;
+var x,f=0;
+$("body").on('wheel', function(e) {
+	
+  if (e.originalEvent.deltaY < 0) {
+
+  		if(count < 25){
+  			count++;
+  			console.log(count);
+  			if(count>5 && f==1){
+  				f=0;
+
+  				$("#screen2").fadeOut('slow', function(){
+		        	$("#screen1").fadeIn();
+		        	$("#card1").slideDown('slow','swing');
+		        	//$("#card1").hide();
+		        	//$("#screen1").
+		        	//$("#card1").show();
+		        	//$("#card1").slideUp('slow','swing');
+		        	
+			    });
+			    count=25;
+  			}
+  		}
+
+  		
+
+
+  } else {
+		
+    
+    if (count > 0){
+		count--;
+		console.log(count);
+	    if(count<15 && f==0)
+	    {	
+	    	$("#card1").slideUp('slow','swing');
+	    	f=1;
+	    	//$("#card1").slideUp('slow','swing');
+	    	$("#screen1").fadeOut('slow', function(){
+		        $("#screen2").fadeIn();
+		    });
+		    count=0;
+	    }
+	    //$("#screen1").css("opacity", parseFloat(x) );
+	    
+    }
+    
+    
+    
+  }
+});
+
+</script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
