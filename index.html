@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 	<title>Abhimanyu's Portfolio</title>
 	<style type="text/css">
 		body {
@@ -17,6 +20,8 @@
 		  width: 100vw;
 		  background-color: transparent;
 		  background-image: url(img/bg1.jpg);
+		  background-size: cover;
+		  background-position: center center;
 		  opacity: 1;
 		  z-index: 1000;
 		}
@@ -29,11 +34,30 @@
 		  width: 100vw;
 		  background-color: transparent;
 		  background-image: url(img/bg3.jpg);
+		  background-size: cover;
+		  background-position: center center;
 		  opacity: 1;
 		  z-index: 999;
 		}
 
+		#card1{
+			width: 28%;
+			position: absolute;
+			top: 50%; 
+			left:36%;
+			transform: translateY(-50%);
+		}
 
+		@media only screen and (max-width: 600px) {
+		  #screen1 {
+		    /*background-repeat: no-repeat;*/
+		  }
+
+		  #card1{
+		  	width: 90vw;
+		  	left:5vw;
+		  }
+		}
 
 	</style>
 	<link rel="stylesheet" href="css/bootstrap.min.css" >
@@ -42,9 +66,7 @@
 	<div id="screen1">
 		
     	
-    		<div class="card" id="card1" style="width: 28%; position: absolute;
-top: 50%; left:36%;
-transform: translateY(-50%);">
+    		<div class="card" id="card1">
 			  <img src="img/avtar.jpg" class="card-img-bottom" alt="...">
 			  <div class="card-body">
 			    <p class="card-title text-center">Welcome stranger!</p>
@@ -63,10 +85,41 @@ transform: translateY(-50%);">
   src="js/jquery-3.4.0.min.js"
   integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
   crossorigin="anonymous"></script>
+  <script src="js/swiped-events.min.js"></script>
 
 <script type="text/javascript">
 var count = 25,c2=0,scale=25,rate=0.04;
 var x,f=0;
+var f1=0;
+
+document.addEventListener('swiped-up', function(e) {
+    if(f1==0)
+	    {	
+	    	$("#card1").slideUp('slow','swing');
+	    	f1=1;
+	    	//$("#card1").slideUp('slow','swing');
+	    	$("#screen1").fadeOut('slow', function(){
+		        $("#screen2").fadeIn();
+		    });
+	    }
+});
+
+document.addEventListener('swiped-down', function(e) {
+    if(f1==1)
+	    {	
+	    	f1=0;
+			$("#screen2").fadeOut('slow', function(){
+	        	$("#screen1").fadeIn();
+	        	$("#card1").slideDown('slow','swing');
+	        	//$("#card1").hide();
+	        	//$("#screen1").
+	        	//$("#card1").show();
+	        	//$("#card1").slideUp('slow','swing');
+        	
+	    	});
+	    }
+});
+
 $("body").on('wheel', function(e) {
 	
   if (e.originalEvent.deltaY < 0) {
